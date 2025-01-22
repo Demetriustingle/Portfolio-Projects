@@ -1,0 +1,148 @@
+---
+title: "BIS581"
+output:
+  word_document: default
+  html_notebook: default
+---
+The following uses the diamonds dataset from the GGPLOT2 library 
+
+```{r}
+library(ggplot2)
+mydiamonds <- diamonds
+```
+```{r}
+library(ggplot2)
+mydiamonds <- diamonds
+```
+
+You can paste in a new "code chunk" by pressing CTRL- ALT - I
+so for each question listed below, put in a new code chunk to answer that question.
+Knit your notebook to Word and submit the word document AND the .RMD file on blackboard.
+```{r}
+library(ggplot2)
+mydiamonds <- diamonds
+```
+
+#How many records are in the dataset?
+
+```{r}
+summary(diamonds)
+```
+#What is the largest diamond by weight (carat)?
+
+```{r}
+largest_diamond <- diamonds[which.max(diamonds$carat),]
+```
+#5.01 #Fair #J #I1 #65.5 #59 #18018 #10.74 #10.54 #6.98
+
+#Most and least expensive?
+
+```{r}
+most_expensive <- diamonds[which.max(diamonds$price),]
+```
+#2.29 #Premium #I #VS2 #60.8 #60 #18823 #8.5 #8.47 #5.16
+
+```{r}
+least_expensive <- diamonds[which.min(diamonds$price),]
+```
+#0.23 #Ideal #E #SI2 #61.5 #55 #326 #3.95 #3.98 #2.43
+
+#Plot a bar chart of count of diamonds vs cut. (This must use the PLOT command)
+```{r}
+cut_count <- table(diamonds$cut)
+```
+```{r}
+plot(cut_count, 
+     main = "Count of Diamonds by Cut", 
+     xlab = "Cut", 
+     ylab = "Count", 
+     col = "skyblue", 
+     border = "blue")
+```
+
+
+#Let's explore the data a bit. What attributes does the most expensive diamond have? Change max(price) to min(price) to see the least expensive.
+```{r}
+subset(diamonds, price == max(price))
+```
+```{r}
+subset(diamonds, price == min(price))
+```
+
+#Create a plot of carat vs price. (this must use the PLOT command)
+
+```{r}
+plot(diamonds$carat, diamonds$price, 
+     main = "Carat vs Price", 
+     xlab = "Carat", 
+     ylab = "Price", 
+     col = "blue", 
+     pch = 16,       
+     cex = 0.5)
+```
+
+
+
+#Does it look like carat and price have a linear relationship?
+
+I would say yes. 
+
+Create three other plots of other variables vs price. The point of exploratory analysis (know your data) is to do just that, explore. You might have to plot more than three to find variables that plot correctly. Please realize too that scatter plots (or line) are for continuous variables and not for categorical variables. See the ggplot2 intro for references. Please try to pick three variables that you think have a strong influence in the price of the diamond. The main point for this is to make a model later on.
+
+#Plot1
+
+```{r}
+plot(diamonds$depth, diamonds$price,
+     main = "Depth vs Price", 
+     xlab = "Depth", 
+     ylab = "Price", 
+     col = "green", 
+     pch = 16, 
+     cex = 0.5)
+```
+
+#Plot2
+
+```{r}
+plot(diamonds$table, diamonds$price,
+     main = "Table vs Price", 
+     xlab = "Table", 
+     ylab = "Price", 
+     col = "purple", 
+     pch = 16, 
+     cex = 0.5)
+
+```
+
+```{r}
+plot(diamonds$x, diamonds$price,
+     main = "Length (x) vs Price", 
+     xlab = "Length (x)", 
+     ylab = "Price", 
+     col = "orange", 
+     pch = 16, 
+     cex = 0.5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
