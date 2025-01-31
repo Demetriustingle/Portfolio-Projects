@@ -1,0 +1,110 @@
+---
+title: "R Notebook"
+output:
+  word_document: default
+  html_notebook: default
+---
+BIS581
+This assignment will look at some stock market data. Answer each question, provide your r code also. 
+You will need to edit the line below to point it at where you saved the CSV file
+
+```{r}
+chooseCRANmirror(graphics = FALSE, ind = 1) 
+```
+
+
+```{r}
+install.packages("dplyr")
+
+```
+```{r}
+library(dplyr)
+```
+
+
+```{r}
+my_stocks <- read.csv("stocks.csv",header=TRUE, stringsAsFactors = FALSE)
+```
+```{r}
+head(my_stocks)
+```
+
+Your job first, is to 'know your data'. Run whatever code you feel necessary to get to know your data. Add more code blocks as needed, leave this part in your document when you submit it.
+
+```{r}
+
+```
+
+For the questions below, show both the code used to answer along with text that shows the answer: 
+
+#How many different stocks are there (by stock symbol) (5)?
+```{r}
+num_stocks <- my_stocks %>% distinct(stock_symbol) %>% nrow()
+print(num_stocks)
+```
+#I used the distinct funtion to try to find all the unique symbols in the dataset. From there, I counted nrow() to get the number of unique stocks.
+
+#What are those stocks (5)
+```{r}
+stock_symbol <- my_stocks %>% distinct(stock_symbol) %>% pull(stock_symbol)
+print(stock_symbol)
+```
+#I used the distinct function again. I extracted all unique stock symbols from the data set. From there, it displayed a list of stock symbols from me using the pull() function. 
+
+
+#Which stock had the highest single gain in a day, which day was it (10)?
+```{r}
+my_stocks <- my_stocks %>%
+  arrange(stock_symbol, date) %>%
+  group_by(stock_symbol) %>%
+  mutate(daily_change = stock_price_high - stock_price_open) %>%
+  ungroup()
+
+max_gain <- my_stocks %>% filter(daily_change == max(daily_change, na.rm = TRUE))
+print(max_gain)
+
+```
+#Calculating the daily change in stock price by subtracting stock_price_open from the stock_price_high.This would be for each stock, then filtering for the highest daily change which then would display the stock symbol and date of the highest gain. 
+
+#Which stock had the highest single loss in a day, which day was it (10)?
+```{r}
+max_loss <- my_stocks %>% filter(daily_change == min(daily_change, na.rm = TRUE))
+print(max_loss)
+```
+#I followed the same process from before when looking at gains but instead, use the filter to find the minimum daily change. The would represent any of the highest loss. 
+
+#Create a plot of closing price for XOM over time (5)
+```{r}
+library(ggplot2)
+
+ggplot(my_stocks %>% filter(stock_symbol == "XOM"), 
+       aes(x = as.Date(date), y = stock_price_high)) +
+  geom_line(color = "blue") +
+  labs(title = "Closing Price of XOM Over Time", x = "Date", y = "Closing Price") +
+  theme_minimal()
+
+```
+#I used the ggplt filter for XOM stock and plotted the stock_high_price vs the date column.
+
+#Create a plot of closing price for XKK over time (5)
+
+```{r}
+ggplot(my_stocks %>% filter(stock_symbol == "XKK"), 
+       aes(x = as.Date(date), y = stock_price_high)) +
+  geom_line(color = "red") +
+  labs(title = "Closing Price of XKK Over Time", x = "Date", y = "Closing Price") +
+  theme_minimal()
+
+```
+#This is almost identifical to my previous answer. Filter the data set XKK stock and plot the stock_price_high.
+
+#Create a plot of the change in price per day for both XOM and XKK (10)
+
+```{r}
+ggplot(my_stocks %>% filter(stock_symbol %in% c("XOM", "XKK")), 
+       aes(x = as.Date(date), y = daily_change, color = stock_symbol)) +
+  geom_line() +
+  labs(title = "Daily Price Change for XOM and XKK", x = "Date", y = "Daily Change in Price") +
+  theme_minimal()
+```
+#First you would calculate the daily change in price. Then, use the ggplot to plot the daily price change. You would do this for both, XOM and XKK over time. 
